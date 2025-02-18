@@ -242,10 +242,10 @@ def main():
             tavily_search_results = tavily_search(google_search_query)
         # st.write("以下是检索到的相关信息：", context)
 
-        # Create placeholder for streaming output
-        response_placeholder = st.empty()
+        # Create placeholders in correct order
         with st.expander("查看推理过程", expanded=False):
             reasoning_placeholder = st.empty()
+        response_placeholder = st.empty()
 
         with st.spinner("处理中..."):
             messages = [
@@ -264,7 +264,9 @@ def main():
             for chunk in response:
                 if hasattr(chunk.choices[0].delta, 'reasoning_content') and chunk.choices[0].delta.reasoning_content:
                     reasoning_content += chunk.choices[0].delta.reasoning_content
-                    reasoning_placeholder.markdown(f'<span style="color: #808080">{reasoning_content}</span>', unsafe_allow_html=True)
+                    # Wrap the entire content in the grey styling
+                    styled_content = f'<div style="color: #808080">{reasoning_content}</div>'
+                    reasoning_placeholder.markdown(styled_content, unsafe_allow_html=True)
                 if hasattr(chunk.choices[0].delta, 'content') and chunk.choices[0].delta.content:
                     content += chunk.choices[0].delta.content
                     response_placeholder.markdown(content)
