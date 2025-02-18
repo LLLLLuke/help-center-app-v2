@@ -243,7 +243,7 @@ def main():
         # st.write("以下是检索到的相关信息：", context)
 
         # Create placeholders in correct order
-        with st.expander("查看推理过程", expanded=False):
+        with st.expander("查看推理过程", expanded=True):
             reasoning_placeholder = st.empty()
         response_placeholder = st.empty()
 
